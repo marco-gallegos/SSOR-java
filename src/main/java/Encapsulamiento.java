@@ -13,7 +13,6 @@ public class Encapsulamiento {
 
     //contructor
     public Encapsulamiento(){
-        System.out.println("okokokok");
 
         monthslimit = new HashMap<Integer, Integer>();
         monthslimitBisiesto = new HashMap<Integer, Integer>();
@@ -52,6 +51,7 @@ public class Encapsulamiento {
 
     private Boolean validar_dia(Integer dia_validar){
         if (bisiesto){
+            System.out.println("comparando bisiesto");
             return dia_validar <= monthslimitBisiesto.get(mes) && dia_validar >= 0;
         }else{
             return dia_validar <= monthslimit.get(mes) && dia_validar >= 0;
@@ -67,10 +67,11 @@ public class Encapsulamiento {
     }
 
     private Boolean esBisiesto(Integer anio_validacion){
-        if ( (anio_validacion % 4 == 0 || anio_validacion % 400 == 0) && (anio_validacion % 100 != 0) ){
+        if ( (anio_validacion % 4 == 0 || anio_validacion % 400 == 0) ){
             return Boolean.TRUE;
+        }else{
+            return Boolean.FALSE;
         }
-        return Boolean.FALSE;
     }
 
     //uml
@@ -102,10 +103,46 @@ public class Encapsulamiento {
     }
 
     public Boolean fijaMes(Integer month){
-        return Boolean.TRUE;
+        Integer mes_anterior;
+        Boolean es_dia_valido;
+
+        if (month < 13 && month > 0){
+            mes_anterior = mes;
+            mes=month;
+            es_dia_valido = validar_dia(dia);
+
+            if (es_dia_valido){
+                return Boolean.TRUE;
+            }else{
+                mes = mes_anterior;
+                return Boolean.FALSE;
+            }
+        }else{
+            return Boolean.FALSE;
+        }
     }
 
     public Boolean fijaAnio(Integer year){
-        return Boolean.TRUE;
+        Integer anio_anterior;
+        Boolean es_dia_valido;
+
+        if (year > 0){
+            anio_anterior = anio;
+            anio=year;
+            bisiesto = esBisiesto(year);
+
+            es_dia_valido = validar_dia(dia);
+
+            if (es_dia_valido){
+                return Boolean.TRUE;
+            }else{
+                anio = anio_anterior;
+                bisiesto=esBisiesto(anio_anterior);
+                return Boolean.FALSE;
+            }
+
+        }else{
+            return Boolean.FALSE;
+        }
     }
 }
