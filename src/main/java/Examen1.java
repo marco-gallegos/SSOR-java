@@ -4,25 +4,29 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 
 public class Examen1 extends JFrame implements ActionListener {
-    private JLabel labelsur;
-    private JButton btncentro;
-    private JTextField textonorte;
+    private JTextField textcentro;
+    private JButton btnnorte;
+    private JTextArea textosur;
 
     public Examen1(){
         setTitle("Gallegos 2020");
+        setLayout(null);
 
-        labelsur = new JLabel("nada aun");
-        btncentro = new JButton("copia ya");
-        btncentro.setSize(150,30);
+        textcentro = new JTextField("nada aun");
+        textcentro.setBounds(90, 100, 100, 30);
 
-        textonorte = new JTextField();
-        
+        btnnorte = new JButton("copia ya");
+        btnnorte.setBounds(90, 10, 150 ,30);
 
-        btncentro.addActionListener(this);
+        textosur = new JTextArea();
+        textosur.setBounds(60, 150,200,200);
+        textosur.setEnabled(false);
 
-        add(labelsur);
-        add(btncentro);
-        add(labelsur);
+        btnnorte.addActionListener(this);
+
+        add(textcentro);
+        add(btnnorte);
+        add(textosur);
         setBounds(10,10,310,310);
         setVisible(true);
     }
@@ -34,5 +38,6 @@ public class Examen1 extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e){
         System.out.println("ok");
+        textosur.setText(textosur.getText() + "\n" + textcentro.getText());
     }
 }
