@@ -1,7 +1,6 @@
-import jdk.nashorn.internal.codegen.ClassEmitter;
-
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Scanner;
 
 public class ClaseAdministradora {
     /*
@@ -79,12 +78,31 @@ public class ClaseAdministradora {
         return true;
     }
 
+    public void add(){
+        String clave, nombre = "";
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Clave : ");
+        clave = input.nextLine();
+        System.out.println("Nombre : ");
+        nombre = input.nextLine();
+        insert(clave,nombre);
+    }
+
     public Materia select(Integer indice){
         return new Materia();
     }
 
     public boolean delete(Integer indice){
         //print table
+        try{
+            String ok = materias.get(indice).Clave;
+        }catch (NullPointerException e){
+            System.out.println("no existe el indice");
+            return false;
+        }
+        materias.remove(indice);
+        printTable();
         return true;
     }
 
@@ -100,14 +118,42 @@ public class ClaseAdministradora {
     }
 
     public void printMenu(){
-        System.out.print("1 - agregar");
-        System.out.print("2 - ver uno");
-        System.out.print("3 - eliminar");
-        System.out.print("4 - ver tablas");
+        System.out.print("1 - agregar ");
+        System.out.print("2 - ver uno ");
+        System.out.print("3 - eliminar ");
+        System.out.print("4 - ver tablas ");
         System.out.println("9 - salir");
     }
 
     public static void main(String[] args){
         ClaseAdministradora adminC = new ClaseAdministradora();
+        Integer opc = 0;
+        Integer id = 0;
+        Scanner input = new Scanner(System.in);
+
+        while (opc != 9){
+            adminC.printMenu();
+            opc = Integer.parseInt(input.nextLine());
+
+            switch (opc){
+                case 1:
+                    adminC.add();
+                    break;
+                case 2:
+                    System.out.println("pendiente");
+                    break;
+                case 3:
+                    System.out.println("ID Eliminar");
+                    id = Integer.parseInt(input.nextLine());
+                    adminC.delete(id);
+                    break;
+                case 4:
+                    adminC.printTable();
+                    break;
+                default:
+                    System.out.println("opcion no valida");
+                    break;
+            }
+        }
     }
 }
