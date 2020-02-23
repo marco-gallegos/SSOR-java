@@ -89,8 +89,24 @@ public class ClaseAdministradora {
         insert(clave,nombre);
     }
 
-    public Materia select(Integer indice){
-        return new Materia();
+    public Materia select(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("id de la materia : ");
+        int id = Integer.parseInt(input.nextLine());
+        String ok = "";
+        Materia toreturn = new Materia("NA", "no existe");
+        try{
+            toreturn = materias.get(id);
+            ok = toreturn.Clave;
+        }catch(NullPointerException e){
+            System.out.println("no se encontro la materia");
+        }
+
+        if (!ok.isEmpty()){
+            return toreturn;
+        }else{
+            return new Materia("NA", "no existe :C");
+        }
     }
 
     public boolean delete(Integer indice){
@@ -140,7 +156,8 @@ public class ClaseAdministradora {
                     adminC.add();
                     break;
                 case 2:
-                    System.out.println("pendiente");
+                    //adminC.printHeader();
+                    adminC.select().print();
                     break;
                 case 3:
                     System.out.println("ID Eliminar");
