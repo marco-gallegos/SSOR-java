@@ -27,7 +27,7 @@ public class Hilos extends JFrame implements ActionListener {
         button.addActionListener(this);
 
         h1=new Hilo(area1, 1000);
-        h2=new Hilo(area1, 1000);
+        h2=new Hilo(area2, 2000);
 
         h1.start();
         h2.start();
@@ -62,7 +62,12 @@ public class Hilos extends JFrame implements ActionListener {
 
         public void play(){
             bandera=!bandera;
-            notify();
+
+            synchronized (this){
+                notify();
+
+            }
+            //play();
         }
 
         public void run(){
@@ -72,15 +77,19 @@ public class Hilos extends JFrame implements ActionListener {
                         try{
                             wait();
                         }catch(InterruptedException e){
-
+                            System.out.println("error al detener el hilo");
                         }
                     }
                 }else{
+                    contador += 1;
                     area.append(String.valueOf(contador) + "\n");
-                    try{
-                        sleep(dormir);
-                    }
-                    catch(InterruptedException e){
+                    synchronized (this){
+                        try{
+                            sleep(dormir);
+                        }
+                        catch(InterruptedException e){
+                            System.out.println("error al dormir el hilo");
+                        }
                     }
                 }
 
