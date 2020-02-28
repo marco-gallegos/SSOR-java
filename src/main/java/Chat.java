@@ -13,8 +13,14 @@ public class Chat extends JFrame implements ActionListener {
     private JTextArea chatArea;
     private JButton btnenviar;
 
-    class Receptor extends Thread{
-        public Receptor(){
+    class Receptor extends Thread {
+        private JTextArea chatbox;
+
+        public Receptor(JTextArea chat){
+            chatbox = chat;
+        }
+
+        public void run(){
             DatagramSocket socketRecepcion;
             DatagramPacket dp;
             int puertoEntrada=2001;
@@ -26,8 +32,10 @@ public class Chat extends JFrame implements ActionListener {
                 dp=new DatagramPacket(buffer,buffer.length);
                 while(true){//deseable validar con bandera
                     socketRecepcion.receive(dp);
-                    System.out.print("IP emisora: "+dp.getAddress().toString()+":");
-                    System.out.println(new String(buffer,0,dp.getLength()));
+                    System.out.print("IP emisora: "+dp.getAddress().toString()+": ");
+                    String mensaje = new String(buffer,0,dp.getLength());
+                    System.out.println(mensaje);
+                    chatbox.append(mensaje + "\n");
                 }
                 //socketRecepcion.close();//código inalcanzable sin bandera
             }catch(SocketException e){
@@ -78,10 +86,14 @@ public class Chat extends JFrame implements ActionListener {
         add(btnpanel);
         setBounds(0, 0, 600, 700);
 
+
+        Receptor hiloReceptor = new Receptor(chatArea);
+        hiloReceptor.start();
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Chat minichat = new Chat();
     }
 
