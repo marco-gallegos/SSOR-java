@@ -132,3 +132,36 @@ public class Examen2 extends JFrame implements ActionListener {
         }
     }
 }
+// puerto 248
+//cadena .getbytes() convierte a arreglo de bytes
+// proceso servidor .java
+// a 1024 se usan datos short actividad anterior (actividad11)
+// codigo operacion short y cadena
+/*
+nucleo.recive(dameId(), solservidor)
+system.arraycopy(solservidor,8,se,0,2) ->investigar
+
+String(solservidor,14,tam)
+
+case 0
+    el archivo de nombre + datos + se ha creado
+case 1
+    el archivo de nombre + datos + se ha eliminado
+case 2
+    el archivo de nombre + datos + se ha leido
+case 3
+    el archivo de nombre + datos + se ha escrito
+
+el mensaje anterior se regresa al archivo
+
+ */
+
+/*
+filewriter
+solicitud
+0-7 no se usan
+8-9 codigo operacion
+10 - 1023 lo que quieras cadena
+
+respuesta sin codigo pero igual
+ */
