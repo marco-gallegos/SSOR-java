@@ -1,3 +1,7 @@
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.util.Hashtable;
+
 public class Parametros {
     public static void println(String arg){
         System.out.println(arg);
@@ -72,4 +76,111 @@ public class Parametros {
         }
         return numero;
     }
+
+    //acctividad 12
+    //sobre micronucleo
+    // los enteros convertidos son de 4 bytes es decir el array es de length 4
+    // basicamente debemos implementar el envia y recibe con datos de las tablas de recepcion y envio o obtenerlas de la interfaz
+    private Hashtable tabla1 = new Hashtable();
+
+    //clse que no existe
+    class ParMaquinaProceso{
+        private int id;
+        private String ip;
+
+        public ParMaquinaProceso(int id, String ip){
+            this.id = id;
+            this.ip = ip;
+        }
+
+        public getip(){
+
+        }
+
+        public getid(){
+
+        }
+    }
+
+    protected void sendVerdadero(int dest, byte[] message){
+        ParMaquinaProceso pmp = tabla1.get(dest);
+        if (pmp==null){
+            //pmp = dameDestinatarioDesdeInterfaz();
+        }
+        //actividad 11 se obtiene los de empaquetar y no el arreglo
+        byte[] arr = empaqueta(dameIpProceso());
+
+        //...
+
+
+        DatagramPacket dp = new DatagramPacket(message, message.length, );
+    }
+
+    //hio que recibe los paquetes
+    public run(){
+        byte[] buffer = new byte[1024];
+        DatagramPacket dp = new DatagramPacket(buffer, buffer.length);
+        DatagramSocket ds = dameSocketRecepcion();
+
+        while(seguirEsperandoDatagramas()){
+            try{
+                println("preparado para recibir msg");
+                ds.receive(dp);
+
+                println("averiguando id origen");
+                byte[] arr = new byte[4];
+                System.arraycopy(buffer,0, arr,0,4);
+                // practica 11
+                int origen = armaEntero(arr);
+
+                println("averiguando id origen");
+                System.arraycopy(buffer,4, arr,0,4);
+                // practica 11
+                int destino = armaEntero(arr);
+
+                println("averiguando ip origen");
+                String iporigen = dp.getAddress().getHostAddress();
+
+                //imprimir datos
+                println("buscando si existe el destino");
+                Proceso p = dameProcesoLocal();
+                if (buffer[1023]==-404){
+                    println("recibi un AU");
+                    Proceso p2 = dameProcesoLocal(origen);
+                    reanudarProceso(p2);
+                }
+
+                if (p!=null){
+                    byte[] arreglo=tabla2.get(destino);
+                    if (arreglo!=null){
+                        println("transmision exitosa");
+                        tabla2.remove(destino);
+
+                        /**
+                         * crear clasequenoexiste
+                         * hacer put en tabla1
+                         */
+
+                        System.arraycopy(buffer,0,arreglo,0, buffer.length);
+
+                        reanudarProceso(p);
+                    }else{
+                        // aca va el TA
+                    }
+                }
+                else{
+                    // aqui va el AU adress unknow
+                    buffer[1023]=-404;
+                    DatagramPacket dp2 = new DatagramPacket(buffer, buffer.length);
+                    DatagramSocket ds2 = dameSocketEmision();
+                    ds2.send(dp2);
+                }
+            }
+        }
+    }
 }
+
+/**
+ * actividad de cierre 2
+ * implementar
+ */
